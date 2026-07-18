@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KKS - لوحة التحكم</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            color: #1a2a3a;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0b2a4a, #1a4a7a);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        .header p {
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 18px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            border-right: 4px solid #1a4a7a;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .stat-card .number {
+            font-size: 30px;
+            font-weight: bold;
+            color: #1a4a7a;
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .filters {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .filters select,
+        .filters input {
+            padding: 8px 14px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 14px;
+            background: white;
+            transition: 0.3s;
+        }
+
+        .filters select:focus,
+        .filters input:focus {
+            border-color: #1a4a7a;
+            outline: none;
+        }
+
+        .filters .btn-refresh {
+            background: #1a4a7a;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .filters .btn-refresh:hover {
+            background: #0b2a4a;
+            transform: scale(1.02);
+        }
+
+        .filters .btn-github {
+            background: #24292e;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .filters .btn-github:hover {
+            background: #1a1a1a;
+            transform: scale(1.02);
+        }
+
+        .filters .btn-home {
+            background: #27ae60;
+            color: white;
+            padding: 8px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .filters .btn-home:hover {
+            background: #1e8449;
+            transform: scale(1.02);
+        }
+
+        .requests-table {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f8f9fa;
+            padding: 12px;
+            text-align: right;
+            font-size: 13px;
+            color: #555;
+            border-bottom: 2px solid #e0e6ed;
+            position: sticky;
+            top: 0;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            font-size: 14px;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .status-pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+        .status-inprogress {
+            background: #cce5ff;
+            color: #004085;
+        }
+        .status-done {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .label-badge {
+            display: inline-block;
+            background: #e9ecef;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            color: #495057;
+            margin: 2px;
+        }
+
+        .btn-action {
+            padding: 4px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            margin: 2px;
+            transition: 0.3s;
+        }
+
+        .btn-action:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-start {
+            background: #ffc107;
+            color: #333;
+        }
+        .btn-start:hover {
+            background: #e0a800;
+        }
+
+        .btn-done {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-done:hover {
+            background: #1e8449;
+        }
+
+        .btn-delete {
+            background: #dc3545;
+            color: white;
+        }
+        .btn-delete:hover {
+            background: #c82333;
+        }
+
+        .btn-view {
+            background: #17a2b8;
+            color: white;
+        }
+        .btn-view:hover {
+            background: #138496;
+        }
+
+        .btn-issue {
+            background: #24292e;
+            color: white;
+            padding: 4px 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+        .btn-issue:hover {
+            background: #1a1a1a;
+            transform: scale(1.05);
+        }
+
+        .empty {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .loading-spinner {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #1a4a7a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 10px;
+            display: none;
+            z-index: 999;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+        }
+
+        .notification.success {
+            background: #27ae60;
+            color: white;
+        }
+        .notification.error {
+            background: #e74c3c;
+            color: white;
+        }
+        .notification.info {
+            background: #1a4a7a;
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+            margin-top: 30px;
+        }
+
+        .issue-link {
+            color: #1a4a7a;
+            text-decoration: none;
+        }
+        .issue-link:hover {
+            text-decoration: underline;
+        }
+
+        .created-at {
+            font-size: 12px;
+            color: #999;
+        }
+
+        /* ردود فعل سريعة */
+        .quick-actions {
+            display: flex;
+            gap: 5px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .filters select,
+            .filters input,
+            .filters .btn-refresh,
+            .filters .btn-github,
+            .filters .btn-home {
+                width: 100%;
+            }
+            table {
+                font-size: 12px;
+            }
+            th,
+            td {
+                padding: 8px;
+                min-width: 60px;
+            }
+            .quick-actions {
+                flex-direction: column;
+            }
+            .btn-action {
+                width: 100%;
+            }
+        }
+
+        @media print {
+            .filters,
+            .btn-action,
+            .btn-issue {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="notification" id="notification"></div>
+
+    <div class="header">
+        <h1>📊 KKS - لوحة التحكم</h1>
+        <p>إدارة الطلبات عبر GitHub Issues • أوسنابروك وألمانيا</p>
+    </div>
+
+    <div class="container">
+
+        <!-- الإحصائيات -->
+        <div class="stats" id="statsContainer">
+            <div class="stat-card">
+                <div class="number" id="totalCount">0</div>
+                <div class="label">📋 إجمالي الطلبات</div>
+            </div>
+            <div class="stat-card" style="border-right-color: #ffc107;">
+                <div class="number" id="pendingCount">0</div>
+                <div class="label">⏳ قيد الانتظار</div>
+            </div>
+            <div class="stat-card" style="border-right-color: #17a2b8;">
+                <div class="number" id="inprogressCount">0</div>
+                <div class="label">🔧 قيد التنفيذ</div>
+            </div>
+            <div class="stat-card" style="border-right-color: #27ae60;">
+                <div class="number" id="doneCount">0</div>
+                <div class="label">✅ منفذة</div>
+            </div>
+            <div class="stat-card" style="border-right-color: #6f42c1;">
+                <div class="number" id="todayCount">0</div>
+                <div class="label">📅 طلبات اليوم</div>
+            </div>
+        </div>
+
+        <!-- الفلتر والأزرار -->
+        <div class="filters">
+            <select id="filterStatus" onchange="loadRequests()">
+                <option value="all">📋 كل الطلبات</option>
+                <option value="pending">⏳ قيد الانتظار</option>
+                <option value="inprogress">🔧 قيد التنفيذ</option>
+                <option value="done">✅ منفذة</option>
+            </select>
+            <input type="text" id="searchInput" placeholder="🔍 بحث بالاسم أو الهاتف..." onkeyup="loadRequests()">
+            <button class="btn-refresh" onclick="loadRequests()">🔄 تحديث</button>
+            <a href="/" target="_blank" class="btn-home">🏠 الرئيسية</a>
+            <a href="https://github.com/kksbelm/kks-said-website/issues" target="_blank" class="btn-github">
+                🐙 عرض على GitHub
+            </a>
+            <span style="color:#999; font-size:13px;" id="lastUpdate"></span>
+        </div>
+
+        <!-- جدول الطلبات -->
+        <div class="requests-table">
+            <div id="requestsContainer">
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p style="margin-top:10px; color:#999;">جاري تحميل الطلبات من GitHub...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 KKS Kälte- und Klimatechnik Said • جميع الحقوق محفوظة
+        <br>
+        <small>🔄 يتم التحديث تلقائياً كل 60 ثانية</small>
+    </div>
+
+    <script>
+        // ⚠️ استبدل هذه البيانات ببيانات مستودعك
+        const GITHUB_REPO = 'kksbelm/kks-said-website';
+        const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/issues`;
+
+        let allRequests = [];
+        let loading = false;
+
+        // استخراج البيانات من نص الـ Issue
+        function parseIssue(issue) {
+            const body = issue.body || '';
+            
+            // استخراج البيانات باستخدام Regex
+            const nameMatch = body.match(/👤\s*العميل:\s*(.+)/);
+            const phoneMatch = body.match(/📞\s*الهاتف:\s*(.+)/);
+            const serviceMatch = body.match(/🛠️\s*الخدمة:\s*(.+)/);
+            const cityMatch = body.match(/📍\s*المدينة:\s*(.+)/);
+            const dateMatch = body.match(/📅\s*التاريخ:\s*(.+)/);
+            const timeMatch = body.match(/🕐\s*الوقت:\s*(.+)/);
+            const detailsMatch = body.match(/📝\s*التفاصيل:\s*([\s\S]*?)(?=\n---|\n\*تم الإرسال|$)/);
+
+            // استخراج الحالة من Labels
+            let status = 'pending';
+            if (issue.labels.some(l => l.name === 'منفذة' || l.name === 'done' || l.name === '✅ منفذة')) {
+                status = 'done';
+            } else if (issue.labels.some(l => l.name === 'قيد التنفيذ' || l.name === 'inprogress' || l.name === '🔧 قيد التنفيذ')) {
+                status = 'inprogress';
+            } else if (issue.labels.some(l => l.name === 'طلب جديد' || l.name === 'pending' || l.name === '⏳ قيد الانتظار')) {
+                status = 'pending';
+            }
+
+            return {
+                id: issue.number,
+                title: issue.title,
+                name: nameMatch ? nameMatch[1].trim() : 'غير معروف',
+                phone: phoneMatch ? phoneMatch[1].trim() : 'غير معروف',
+                service: serviceMatch ? serviceMatch[1].trim() : 'غير معروف',
+                city: cityMatch ? cityMatch[1].trim() : 'غير محدد',
+                date: dateMatch ? dateMatch[1].trim() : 'غير محدد',
+                time: timeMatch ? timeMatch[1].trim() : 'غير محدد',
+                details: detailsMatch ? detailsMatch[1].trim() : 'لا توجد تفاصيل',
+                status: status,
+                created_at: issue.created_at,
+                updated_at: issue.updated_at,
+                issue_url: issue.html_url,
+                labels: issue.labels.map(l => l.name),
+                state: issue.state
+            };
+        }
+
+        // تحميل الطلبات
+        async function loadRequests() {
+            if (loading) return;
+            loading = true;
+
+            const status = document.getElementById('filterStatus').value;
+            const search = document.getElementById('searchInput').value.toLowerCase();
+
+            try {
+                // جلب جميع Issues (مفتوحة ومغلقة)
+                const response = await fetch(`${GITHUB_API_URL}?state=all&per_page=100&sort=created&direction=desc`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const issues = await response.json();
+                
+                // تحويل Issues إلى طلبات
+                allRequests = issues.map(parseIssue);
+
+                // تطبيق الفلتر
+                let filtered = allRequests;
+                if (status !== 'all') {
+                    filtered = filtered.filter(r => r.status === status);
+                }
+                if (search) {
+                    filtered = filtered.filter(r =>
+                        r.name.toLowerCase().includes(search) ||
+                        r.phone.includes(search) ||
+                        r.service.toLowerCase().includes(search) ||
+                        r.city.toLowerCase().includes(search)
+                    );
+                }
+
+                renderRequests(filtered);
+                updateStats(allRequests);
+                document.getElementById('lastUpdate').textContent = '🕐 آخر تحديث: ' + new Date().toLocaleString('ar-SA');
+
+            } catch (error) {
+                document.getElementById('requestsContainer').innerHTML = `
+                    <div class="empty">
+                        ❌ خطأ في تحميل البيانات: ${error.message}
+                        <br><br>
+                        <button onclick="loadRequests()" style="padding:8px 20px; background:#1a4a7a; color:white; border:none; border-radius:8px; cursor:pointer;">
+                            🔄 إعادة المحاولة
+                        </button>
+                        <br><br>
+                        <small style="color:#999;">تأكد من أن المستودع عام أو أن التوكن صحيح</small>
+                    </div>
+                `;
+                console.error('Error loading requests:', error);
+            } finally {
+                loading = false;
+            }
+        }
+
+        // عرض الطلبات
+        function renderRequests(requests) {
+            const container = document.getElementById('requestsContainer');
+
+            if (requests.length === 0) {
+                container.innerHTML = `
+                    <div class="empty">
+                        📭 لا توجد طلبات تطابق البحث
+                    </div>
+                `;
+                return;
+            }
+
+            let html = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width:50px;">#</th>
+                            <th>العميل</th>
+                            <th>الهاتف</th>
+                            <th>الخدمة</th>
+                            <th>التاريخ/الوقت</th>
+                            <th>الحالة</th>
+                            <th>الإجراءات</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            requests.forEach((r, index) => {
+                const statusClass = r.status === 'pending' ? 'status-pending' :
+                                   r.status === 'inprogress' ? 'status-inprogress' : 'status-done';
+
+                const statusText = r.status === 'pending' ? '⏳ قيد الانتظار' :
+                                   r.status === 'inprogress' ? '🔧 قيد التنفيذ' : '✅ منفذة';
+
+                const dateDisplay = r.date !== 'غير محدد' ? r.date : '';
+                const timeDisplay = r.time !== 'غير محدد' ? r.time : '';
+
+                // حالة الـ Issue (مفتوحة/مغلقة)
+                const issueState = r.state === 'closed' ? '🔒 مغلقة' : '📌 مفتوحة';
+
+                html += `
+                    <tr>
+                        <td><strong>#${r.id}</strong></td>
+                        <td>
+                            <strong>${r.name}</strong>
+                            <br>
+                            <small class="created-at">${new Date(r.created_at).toLocaleDateString('ar-SA')}</small>
+                        </td>
+                        <td>${r.phone}</td>
+                        <td>
+                            ${r.service}
+                            <br>
+                            <small style="color:#999;">📍 ${r.city}</small>
+                        </td>
+                        <td>
+                            ${dateDisplay} ${timeDisplay ? '<br>🕐 ' + timeDisplay : ''}
+                            <br>
+                            <small style="color:#999;">${issueState}</small>
+                        </td>
+                        <td>
+                            <span class="status ${statusClass}">${statusText}</span>
+                            <br>
+                            ${r.labels.filter(l => !['طلب جديد', 'pending', 'inprogress', 'done', 'منفذة', 'قيد التنفيذ', '⏳ قيد الانتظار', '🔧 قيد التنفيذ', '✅ منفذة'].includes(l))
+                                .map(l => `<span class="label-badge">${l}</span>`).join('')}
+                        </td>
+                        <td>
+                            <div class="quick-actions">
+                                <a href="${r.issue_url}" target="_blank" class="btn-issue">🔗 عرض</a>
+                                <button class="btn-action btn-view" onclick="viewDetails(${r.id})">👁️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            html += `
+                    </tbody>
+                </table>
+                <div style="margin-top:10px; color:#999; font-size:13px; display:flex; justify-content:space-between; flex-wrap:wrap;">
+                    <span>📊 عرض ${requests.length} من أصل ${allRequests.length} طلب</span>
+                    <span>📌 ${allRequests.filter(r => r.state === 'open').length} مفتوحة • 🔒 ${allRequests.filter(r => r.state === 'closed').length} مغلقة</span>
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // تحديث الإحصائيات
+        function updateStats(requests) {
+            const today = new Date().toISOString().split('T')[0];
+            const todayRequests = requests.filter(r => r.created_at && r.created_at.startsWith(today));
+
+            document.getElementById('totalCount').textContent = requests.length;
+            document.getElementById('pendingCount').textContent = requests.filter(r => r.status === 'pending').length;
+            document.getElementById('inprogressCount').textContent = requests.filter(r => r.status === 'inprogress').length;
+            document.getElementById('doneCount').textContent = requests.filter(r => r.status === 'done').length;
+            document.getElementById('todayCount').textContent = todayRequests.length;
+        }
+
+        // عرض تفاصيل الطلب
+        function viewDetails(id) {
+            const request = allRequests.find(r => r.id === id);
+            if (!request) {
+                showNotification('❌ الطلب غير موجود', 'error');
+                return;
+            }
+
+            const details = `
+📋 تفاصيل الطلب #${request.id}
+━━━━━━━━━━━━━━━━━━━━━━━
+👤 الاسم: ${request.name}
+📞 الهاتف: ${request.phone}
+🛠️ الخدمة: ${request.service}
+📍 المدينة: ${request.city}
+📅 التاريخ: ${request.date}
+🕐 الوقت: ${request.time}
+📊 الحالة: ${request.status}
+📌 حالة الـ Issue: ${request.state === 'open' ? 'مفتوحة' : 'مغلقة'}
+🏷️ التصنيفات: ${request.labels.join(', ')}
+
+📝 التفاصيل:
+${request.details}
+
+━━━━━━━━━━━━━━━━━━━━━━━
+🔗 رابط الطلب: ${request.issue_url}
+🕐 الإرسال: ${new Date(request.created_at).toLocaleString('ar-SA')}
+🔄 آخر تحديث: ${new Date(request.updated_at).toLocaleString('ar-SA')}
+            `;
+
+            alert(details);
+        }
+
+        // إشعار
+        function showNotification(msg, type = 'info') {
+            const el = document.getElementById('notification');
+            el.textContent = msg;
+            el.className = `notification ${type}`;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 3000);
+        }
+
+        // تحميل عند فتح الصفحة
+        loadRequests();
+
+        // تحديث تلقائي كل 60 ثانية
+        setInterval(loadRequests, 60000);
+    </script>
+
+</body>
+</html>
