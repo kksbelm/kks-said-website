@@ -1,0 +1,11 @@
+{
+  "name": "kks-said-website",
+  "version": "1.0.0",
+  "description": "نظام إدارة خدمات التبريد وتكييف الهواء - KKS",
+  "main": "index.html",
+  "scripts": {
+    "start": "vercel dev"
+  },
+  "author": "KKS Kälte- und Klimatechnik Said",
+  "license": "MIT"
+}
