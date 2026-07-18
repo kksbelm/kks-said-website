@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KKS - نظام إدارة الخدمات</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #f0f4f8;
+            color: #1a2a3a;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #0b2a4a, #1a4a7a);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        .header p {
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+        }
+
+        .security-badge {
+            background: #27ae60;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .security-badge span {
+            font-weight: bold;
+        }
+
+        .service-form {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+        }
+
+        .service-form h2 {
+            margin-bottom: 20px;
+            color: #0b2a4a;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e0e6ed;
+            border-radius: 8px;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: #1a4a7a;
+            outline: none;
+        }
+
+        .form-group textarea {
+            height: 80px;
+            resize: vertical;
+        }
+
+        .btn {
+            background: #1a4a7a;
+            color: white;
+            padding: 14px 30px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background: #0b2a4a;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 15px 30px;
+            border-radius: 10px;
+            display: none;
+            z-index: 999;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            font-weight: 600;
+        }
+
+        .notification.success {
+            background: #27ae60;
+            color: white;
+        }
+        .notification.error {
+            background: #e74c3c;
+            color: white;
+        }
+        .notification.info {
+            background: #1a4a7a;
+            color: white;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #ddd;
+            margin-top: 20px;
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #1a4a7a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .quick-links a {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            text-decoration: none;
+            color: #1a4a7a;
+            font-weight: 600;
+            border: 2px solid #e0e6ed;
+            transition: 0.3s;
+        }
+
+        .quick-links a:hover {
+            background: #1a4a7a;
+            color: white;
+            border-color: #1a4a7a;
+        }
+
+        .contact-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .contact-card h3 {
+            color: #0b2a4a;
+            margin-bottom: 10px;
+        }
+
+        .contact-card .phone {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1a4a7a;
+        }
+
+        .contact-card .sub {
+            color: #666;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .quick-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="notification" id="notification"></div>
+
+    <div class="header">
+        <h1>❄️ KKS - نظام إدارة الخدمات</h1>
+        <p>للتبريد وتكييف الهواء • أوسنابروك وألمانيا</p>
+    </div>
+
+    <div class="container">
+
+        <div class="security-badge">
+            🔒 <span>آمن ومشفر</span> • جميع الطلبات تُرسل عبر قناة مشفرة
+        </div>
+
+        <div class="service-form">
+            <h2>📋 طلب خدمة جديد</h2>
+
+            <div class="form-group">
+                <label>الاسم الكامل *</label>
+                <input type="text" id="customerName" placeholder="أدخل اسمك" required>
+            </div>
+
+            <div class="form-group">
+                <label>رقم الهاتف *</label>
+                <input type="tel" id="customerPhone" placeholder="+49 176 647 40 913" required>
+            </div>
+
+            <div class="form-group">
+                <label>نوع الخدمة</label>
+                <select id="serviceType">
+                    <option value="تركيب مكيف">تركيب مكيف</option>
+                    <option value="صيانة دورية">صيانة دورية</option>
+                    <option value="إصلاح عطل">إصلاح عطل</option>
+                    <option value="فحص تسرب (F-Gas)">فحص تسرب (F-Gas)</option>
+                    <option value="تبريد تجاري">تبريد تجاري</option>
+                    <option value="طوارئ 24/7">طوارئ 24/7</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>المدينة</label>
+                <input type="text" id="city" value="أوسنابروك">
+            </div>
+
+            <div class="form-group">
+                <label>تفاصيل الخدمة</label>
+                <textarea id="details" placeholder="اذكر تفاصيل المشكلة أو المطلوب..."></textarea>
+            </div>
+
+            <div class="form-group">
+                <label>التاريخ المفضل</label>
+                <input type="date" id="preferredDate">
+            </div>
+
+            <div class="form-group">
+                <label>الوقت المفضل</label>
+                <select id="preferredTime">
+                    <option value="الصباح (8-12)">الصباح (8-12)</option>
+                    <option value="بعد الظهر (12-4)" selected>بعد الظهر (12-4)</option>
+                    <option value="المساء (4-8)">المساء (4-8)</option>
+                    <option value="طوارئ (أي وقت)">طوارئ (أي وقت)</option>
+                </select>
+            </div>
+
+            <button class="btn" id="submitBtn" onclick="submitRequest()">
+                📤 إرسال الطلب
+            </button>
+
+            <div class="quick-links">
+                <a href="/dashboard.html" target="_blank">📊 لوحة التحكم</a>
+                <a href="https://github.com/kksbelm/kks-said-website/issues" target="_blank">📋 عرض الطلبات</a>
+            </div>
+        </div>
+
+        <div class="contact-card">
+            <h3>📞 للتواصل المباشر</h3>
+            <p class="phone">+49 176 647 40 913</p>
+            <p class="sub">24/7 خدمة طوارئ • اطلب واستلم فوراً</p>
+        </div>
+    </div>
+
+    <div class="footer">
+        © 2026 KKS Kälte- und Klimatechnik Said • جميع الحقوق محفوظة
+    </div>
+
+    <script>
+        async function submitRequest() {
+            const name = document.getElementById('customerName').value.trim();
+            const phone = document.getElementById('customerPhone').value.trim();
+            const service = document.getElementById('serviceType').value;
+            const city = document.getElementById('city').value.trim() || 'أوسنابروك';
+            const details = document.getElementById('details').value.trim();
+            const date = document.getElementById('preferredDate').value || 'غير محدد';
+            const time = document.getElementById('preferredTime').value;
+
+            if (!name || !phone) {
+                showNotification('⚠️ الرجاء إدخال الاسم ورقم الهاتف', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> جاري الإرسال...';
+
+            try {
+                const response = await fetch('/api/submit-request', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: name,
+                        phone: phone,
+                        service: service,
+                        city: city,
+                        details: details,
+                        date: date,
+                        time: time
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    showNotification('✅ ' + result.message || 'تم إرسال طلبك بنجاح!', 'success');
+                    document.getElementById('customerName').value = '';
+                    document.getElementById('customerPhone').value = '';
+                    document.getElementById('details').value = '';
+                    document.getElementById('preferredDate').value = '';
+                } else {
+                    showNotification('❌ ' + result.error || 'حدث خطأ، حاول مرة أخرى', 'error');
+                }
+            } catch (error) {
+                showNotification('❌ خطأ في الاتصال: ' + error.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '📤 إرسال الطلب';
+            }
+        }
+
+        function showNotification(msg, type = 'info') {
+            const el = document.getElementById('notification');
+            el.textContent = msg;
+            el.className = `notification ${type}`;
+            el.style.display = 'block';
+            setTimeout(() => { el.style.display = 'none'; }, 5000);
+        }
+    </script>
+
+</body>
+</html>
