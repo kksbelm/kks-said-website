@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KKS - نظام إدارة الخدمات</title>
+    <title>KKS - Kälte- und Klimatechnik Said</title>
     <style>
         * {
             margin: 0;
@@ -11,337 +11,522 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
         body {
             background: #f0f4f8;
             color: #1a2a3a;
         }
+
+        /* Header */
         .header {
             background: linear-gradient(135deg, #0b2a4a, #1a4a7a);
             color: white;
-            padding: 20px;
+            padding: 40px 20px;
             text-align: center;
         }
-        .header h1 { font-size: 28px; margin-bottom: 5px; }
-        .header p { opacity: 0.9; }
+
+        .header .logo {
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 2px;
+        }
+
+        .header .logo span {
+            color: #64b5f6;
+        }
+
+        .header .subtitle {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-top: 5px;
+            letter-spacing: 3px;
+        }
+
+        .header .tagline {
+            font-size: 14px;
+            opacity: 0.7;
+            margin-top: 10px;
+            letter-spacing: 5px;
+        }
+
+        .header .badges {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .header .badges span {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        /* Container */
         .container {
-            max-width: 800px;
-            margin: 20px auto;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 0 20px;
         }
-        .security-badge {
-            background: #27ae60;
-            color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-        .security-badge span { font-weight: bold; }
-        .service-form {
+
+        /* Hero Section */
+        .hero {
             background: white;
-            border-radius: 12px;
-            padding: 30px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
-            margin-bottom: 20px;
-        }
-        .service-form h2 {
-            margin-bottom: 20px;
-            color: #0b2a4a;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-            color: #333;
-        }
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 10px 15px;
-            border: 2px solid #e0e6ed;
-            border-radius: 8px;
-            font-size: 15px;
-            transition: 0.3s;
-        }
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: #1a4a7a;
-            outline: none;
-        }
-        .form-group textarea {
-            height: 80px;
-            resize: vertical;
-        }
-        .btn {
-            background: #1a4a7a;
-            color: white;
-            padding: 14px 30px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: 0.3s;
-            font-weight: 600;
-            width: 100%;
-        }
-        .btn:hover {
-            background: #0b2a4a;
-            transform: translateY(-2px);
-        }
-        .btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
-        }
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            padding: 15px 30px;
-            border-radius: 10px;
-            display: none;
-            z-index: 999;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            font-weight: 600;
-        }
-        .notification.success {
-            background: #27ae60;
-            color: white;
-        }
-        .notification.error {
-            background: #e74c3c;
-            color: white;
-        }
-        .notification.info {
-            background: #1a4a7a;
-            color: white;
-        }
-        .footer {
-            text-align: center;
-            padding: 20px;
-            color: #666;
-            font-size: 14px;
-            border-top: 1px solid #ddd;
-            margin-top: 20px;
-        }
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid #f3f3f3;
-            border-top: 3px solid #1a4a7a;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        .quick-links {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .quick-links a {
-            background: #f8f9fa;
-            padding: 10px;
-            border-radius: 8px;
-            text-align: center;
-            text-decoration: none;
-            color: #1a4a7a;
-            font-weight: 600;
-            border: 2px solid #e0e6ed;
-            transition: 0.3s;
-        }
-        .quick-links a:hover {
-            background: #1a4a7a;
-            color: white;
-            border-color: #1a4a7a;
-        }
-        .contact-card {
-            background: white;
-            border-radius: 12px;
-            padding: 20px;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            padding: 40px;
+            margin-top: -30px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
             text-align: center;
         }
-        .contact-card h3 {
+
+        .hero h2 {
+            font-size: 28px;
             color: #0b2a4a;
             margin-bottom: 10px;
         }
-        .contact-card .phone {
-            font-size: 22px;
-            font-weight: bold;
-            color: #1a4a7a;
+
+        .hero p {
+            color: #555;
+            font-size: 16px;
+            line-height: 1.8;
+            max-width: 700px;
+            margin: 0 auto 25px;
         }
-        .contact-card .sub {
+
+        .hero .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 14px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #1a4a7a;
+            color: white;
+        }
+        .btn-primary:hover {
+            background: #0b2a4a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 74, 122, 0.3);
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-success:hover {
+            background: #1e8449;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(39, 174, 96, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: #1a4a7a;
+            border: 2px solid #1a4a7a;
+        }
+        .btn-outline:hover {
+            background: #1a4a7a;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        /* Features */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature .icon {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .feature h4 {
+            color: #0b2a4a;
+            font-size: 15px;
+        }
+
+        .feature p {
+            color: #777;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        /* Services */
+        .section-title {
+            text-align: center;
+            font-size: 28px;
+            color: #0b2a4a;
+            margin: 50px 0 30px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: #1a4a7a;
+            margin: 10px auto 0;
+            border-radius: 4px;
+        }
+
+        .services {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 30px 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+            text-align: center;
+            border-bottom: 4px solid #1a4a7a;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .service-card .icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        .service-card h4 {
+            color: #0b2a4a;
+            font-size: 18px;
+            margin-bottom: 8px;
+        }
+
+        .service-card p {
             color: #666;
             font-size: 14px;
+            line-height: 1.6;
         }
-        @media (max-width: 600px) {
-            .quick-links {
-                grid-template-columns: 1fr;
+
+        /* Brands */
+        .brands {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .brands .brand-grid {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .brands .brand-item {
+            font-weight: 700;
+            font-size: 16px;
+            color: #1a4a7a;
+            padding: 8px 15px;
+            background: #f0f4f8;
+            border-radius: 8px;
+            letter-spacing: 1px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            text-align: center;
+        }
+
+        .testimonial .stars {
+            color: #f39c12;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .testimonial .text {
+            font-size: 15px;
+            color: #444;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .testimonial .author {
+            font-weight: 700;
+            color: #0b2a4a;
+        }
+
+        /* Contact */
+        .contact {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .contact .phone {
+            font-size: 28px;
+            font-weight: 900;
+            color: #1a4a7a;
+            margin: 10px 0;
+        }
+
+        .contact .info {
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+
+        .contact .info span {
+            display: inline-block;
+            margin: 0 15px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            color: #888;
+            font-size: 14px;
+            border-top: 1px solid #e0e6ed;
+            margin-top: 20px;
+        }
+
+        .footer strong {
+            color: #1a4a7a;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header .logo {
+                font-size: 28px;
+            }
+            .hero {
+                padding: 25px 20px;
+            }
+            .hero h2 {
+                font-size: 22px;
+            }
+            .btn {
+                padding: 12px 25px;
+                font-size: 14px;
+                width: 100%;
+            }
+            .contact .phone {
+                font-size: 22px;
+            }
+            .contact .info span {
+                display: block;
+                margin: 5px 0;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="notification" id="notification"></div>
+    <!-- ============ HEADER ============ -->
+    <header class="header">
+        <div class="logo">❄️ KKS</div>
+        <div class="subtitle">KÄLTE- UND KLIMATECHNIK SAID</div>
+        <div class="tagline">für Fachmann für perfektes Klima</div>
+        <div class="badges">
+            <span>🏆 KOMPETENZ</span>
+            <span>⭐ QUALITÄT</span>
+            <span>🤝 ZUVERLÄSSIGKEIT</span>
+        </div>
+    </header>
 
-    <div class="header">
-        <h1>❄️ KKS - نظام إدارة الخدمات</h1>
-        <p>للتبريد وتكييف الهواء • أوسنابروك وألمانيا</p>
-    </div>
-
+    <!-- ============ HERO ============ -->
     <div class="container">
-
-        <div class="security-badge">
-            🔒 <span>آمن ومشفر</span> • جميع الطلبات تُرسل عبر قناة مشفرة
-        </div>
-
-        <div class="service-form">
-            <h2>📋 طلب خدمة جديد</h2>
-
-            <div class="form-group">
-                <label>الاسم الكامل *</label>
-                <input type="text" id="customerName" placeholder="أدخل اسمك" required>
+        <section class="hero">
+            <h2>❄️ Ihr Experte für Kälte- &amp; Klimatechnik in Osnabrück</h2>
+            <p>
+                Installation, Wartung, Reparatur und Dichtheitsprüfung von Klima- und Kälteanlagen – 
+                schnell, zuverlässig und professionell.
+            </p>
+            <div class="btn-group">
+                <a href="tel:+4917664740913" class="btn btn-primary">📞 JETZT ANRUFEN</a>
+                <a href="#contact" class="btn btn-success">📋 ANGEBOT ANFORDERN</a>
+                <a href="/dashboard.html" class="btn btn-outline">📊 ZUR ÜBERSICHT</a>
             </div>
+        </section>
 
-            <div class="form-group">
-                <label>رقم الهاتف *</label>
-                <input type="tel" id="customerPhone" placeholder="+49 176 647 40 913" required>
+        <!-- ============ FEATURES ============ -->
+        <div class="features">
+            <div class="feature">
+                <div class="icon">🆘</div>
+                <h4>24/7 Notdienst</h4>
+                <p>Im Notfall sind wir 24/7 für Sie erreichbar</p>
             </div>
-
-            <div class="form-group">
-                <label>نوع الخدمة</label>
-                <select id="serviceType">
-                    <option value="تركيب مكيف">تركيب مكيف</option>
-                    <option value="صيانة دورية">صيانة دورية</option>
-                    <option value="إصلاح عطل">إصلاح عطل</option>
-                    <option value="فحص تسرب (F-Gas)">فحص تسرب (F-Gas)</option>
-                    <option value="تبريد تجاري">تبريد تجاري</option>
-                    <option value="طوارئ 24/7">طوارئ 24/7</option>
-                </select>
+            <div class="feature">
+                <div class="icon">⚡</div>
+                <h4>Schnelle Reaktionszeit</h4>
+                <p>Wir sind in kürzester Zeit vor Ort</p>
             </div>
-
-            <div class="form-group">
-                <label>المدينة</label>
-                <input type="text" id="city" value="أوسنابروك">
+            <div class="feature">
+                <div class="icon">💰</div>
+                <h4>Faire Preise</h4>
+                <p>Transparente und faire Preisgestaltung</p>
             </div>
-
-            <div class="form-group">
-                <label>تفاصيل الخدمة</label>
-                <textarea id="details" placeholder="اذكر تفاصيل المشكلة أو المطلوب..."></textarea>
-            </div>
-
-            <div class="form-group">
-                <label>التاريخ المفضل</label>
-                <input type="date" id="preferredDate">
-            </div>
-
-            <div class="form-group">
-                <label>الوقت المفضل</label>
-                <select id="preferredTime">
-                    <option value="الصباح (8-12)">الصباح (8-12)</option>
-                    <option value="بعد الظهر (12-4)" selected>بعد الظهر (12-4)</option>
-                    <option value="المساء (4-8)">المساء (4-8)</option>
-                    <option value="طوارئ (أي وقت)">طوارئ (أي وقت)</option>
-                </select>
-            </div>
-
-            <button class="btn" id="submitBtn" onclick="submitRequest()">
-                📤 إرسال الطلب
-            </button>
-
-            <div class="quick-links">
-                <a href="/dashboard.html" target="_blank">📊 لوحة التحكم</a>
-                <a href="https://github.com/kksbelm/kks-said-website/issues" target="_blank">📋 عرض الطلبات</a>
+            <div class="feature">
+                <div class="icon">✅</div>
+                <h4>Zertifizierter Fachbetrieb</h4>
+                <p>F-Gas zertifiziert nach EU 517/2014</p>
             </div>
         </div>
 
-        <div class="contact-card">
-            <h3>📞 للتواصل المباشر</h3>
-            <p class="phone">+49 176 647 40 913</p>
-            <p class="sub">24/7 خدمة طوارئ • اطلب واستلم فوراً</p>
+        <!-- ============ SERVICES ============ -->
+        <h2 class="section-title">📋 UNSERE LEISTUNGEN</h2>
+        <p style="text-align:center; color:#666; margin-bottom:20px;">
+            Komplette Lösungen für Ihr perfektes Klima
+        </p>
+
+        <div class="services">
+            <div class="service-card">
+                <div class="icon">❄️</div>
+                <h4>Klimaanlagen</h4>
+                <p>Installation &amp; Wartung von Split- und Multi-Split-Anlagen</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">🏭</div>
+                <h4>Gewerbekäufe</h4>
+                <p>Kältetechnik für Gewerbe, Industrie &amp; Gastronomie</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">🔧</div>
+                <h4>Wartung</h4>
+                <p>Regelmäßige Wartung für maximale Leistung und Langlebigkeit</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">🆘</div>
+                <h4>24h Notdienst</h4>
+                <p>Im Notfall sind wir 24/7 für Sie erreichbar</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">🔍</div>
+                <h4>Dichtheitsprüfung</h4>
+                <p>Fachgerechte Prüfung nach F-Gas Verordnung (EU) 517/2014</p>
+            </div>
+            <div class="service-card">
+                <div class="icon">🧊</div>
+                <h4>Kühlstellen</h4>
+                <p>Planung, Montage und Wartung von Kühl- und Tiefkühlstellen</p>
+            </div>
         </div>
+
+        <!-- ============ BRANDS ============ -->
+        <div class="brands">
+            <h3 style="color:#0b2a4a;">🏷️ WIR ARBEITEN MIT FÜHRENDEN MARKEN</h3>
+            <div class="brand-grid">
+                <span class="brand-item">MITSUBISHI</span>
+                <span class="brand-item">DAIKIN</span>
+                <span class="brand-item">Panasonic</span>
+                <span class="brand-item">LG</span>
+                <span class="brand-item">SAMSUNG</span>
+                <span class="brand-item">TOSHIBA</span>
+                <span class="brand-item">VIESMANN</span>
+                <span class="brand-item">BOSCH</span>
+            </div>
+        </div>
+
+        <!-- ============ TESTIMONIALS ============ -->
+        <h2 class="section-title">⭐ KUNDENSTIMMEN</h2>
+
+        <div class="testimonials">
+            <div class="testimonial">
+                <div class="stars">★★★★★</div>
+                <div class="text">"Schnelle Hilfe und top Arbeit! Unsere Klimaanlage läuft wieder perfekt."</div>
+                <div class="author">- Mehmet A.</div>
+            </div>
+            <div class="testimonial">
+                <div class="stars">★★★★★</div>
+                <div class="text">"Sehr kompetent, zuverlässig und freundlich. Kann ich nur empfehlen!"</div>
+                <div class="author">- Sabrina K.</div>
+            </div>
+            <div class="testimonial">
+                <div class="stars">★★★★★</div>
+                <div class="text">"Fachgerechte Arbeit, pünktlich und faire Preise. Absolut empfehlenswert!"</div>
+                <div class="author">- Thomas M.</div>
+            </div>
+        </div>
+
+        <!-- ============ CONTACT ============ -->
+        <section id="contact" class="contact">
+            <h3 style="color:#0b2a4a; font-size:22px;">📞 KONTAKT &amp; STANDORT</h3>
+            <div class="phone">📱 +49 176 647 40 913</div>
+            <div class="info">
+                <span>📧 info@kks-klimatchnik.de</span>
+                <span>📍 Osnabrück &amp; Umgebung</span>
+                <span>🕐 Mo – Sa: 07:00 – 20:00 Uhr</span>
+            </div>
+            <br>
+            <a href="https://kks-said-website.vercel.app" class="btn btn-success">📝 JETZT ANFRAGEN</a>
+        </section>
     </div>
 
-    <div class="footer">
-        © 2026 KKS Kälte- und Klimatechnik Said • جميع الحقوق محفوظة
-    </div>
-
-    <script>
-        async function submitRequest() {
-            const name = document.getElementById('customerName').value.trim();
-            const phone = document.getElementById('customerPhone').value.trim();
-            const service = document.getElementById('serviceType').value;
-            const city = document.getElementById('city').value.trim() || 'أوسنابروك';
-            const details = document.getElementById('details').value.trim();
-            const date = document.getElementById('preferredDate').value || 'غير محدد';
-            const time = document.getElementById('preferredTime').value;
-
-            if (!name || !phone) {
-                showNotification('⚠️ الرجاء إدخال الاسم ورقم الهاتف', 'error');
-                return;
-            }
-
-            const btn = document.getElementById('submitBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="loading"></span> جاري الإرسال...';
-
-            try {
-                const response = await fetch('/api/submit-request', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        name: name,
-                        phone: phone,
-                        service: service,
-                        city: city,
-                        details: details,
-                        date: date,
-                        time: time
-                    })
-                });
-
-                const result = await response.json();
-
-                if (response.ok) {
-                    showNotification('✅ ' + result.message || 'تم إرسال طلبك بنجاح!', 'success');
-                    document.getElementById('customerName').value = '';
-                    document.getElementById('customerPhone').value = '';
-                    document.getElementById('details').value = '';
-                    document.getElementById('preferredDate').value = '';
-                } else {
-                    showNotification('❌ ' + result.error || 'حدث خطأ، حاول مرة أخرى', 'error');
-                }
-            } catch (error) {
-                showNotification('❌ خطأ في الاتصال: ' + error.message, 'error');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '📤 إرسال الطلب';
-            }
-        }
-
-        function showNotification(msg, type = 'info') {
-            const el = document.getElementById('notification');
-            el.textContent = msg;
-            el.className = `notification ${type}`;
-            el.style.display = 'block';
-            setTimeout(() => { el.style.display = 'none'; }, 5000);
-        }
-    </script>
+    <!-- ============ FOOTER ============ -->
+    <footer class="footer">
+        <p>
+            © 2026 <strong>KKS Kälte- und Klimatechnik Said</strong>. Alle Rechte vorbehalten.
+            <br>
+            <span style="font-size:12px; color:#aaa;">
+                ✅ Zertifizierter Fachbetrieb &bull; 🌱 Umweltbewusst &amp; nachhaltig &bull; 🔧 Moderne Technik
+            </span>
+        </p>
+    </footer>
 
 </body>
 </html>
