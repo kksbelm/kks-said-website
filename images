@@ -1,0 +1,22 @@
+images/
+│
+├── klimageraete/        ← صور المكيفات (Daikin, LG, Midea…)
+│   ├── daikin_sensira.jpg
+│   ├── midea_breezeless.jpg
+│   ├── lg_dual_inverter.jpg
+│   └── gree_fairy.jpg
+│
+├── arbeiten/            ← صور أعمالك (قبل/بعد، تركيب، صيانة)
+│   ├── vorher_nachher_klima.jpg
+│   ├── kuehlraum_installation.jpg
+│   └── lueftung_montage.jpg
+│
+├── partner/             ← شعارات الشركات اللي تتعامل معها
+│   ├── al_diyaa_logo.png
+│   ├── gastronomie_logo.png
+│   └── privatkunden_icon.png
+│
+└── icons/               ← أيقونات صغيرة للموقع
+    ├── klima_icon.png
+    ├── kuehlraum_icon.png
+    └── lueftung_icon.png
